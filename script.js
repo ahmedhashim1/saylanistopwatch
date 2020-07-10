@@ -30,7 +30,7 @@ function add() {
 function timer() {
   t = setTimeout(add, 1000);
 }
-timer();
+// timer();
 
 /* Start button */
 start.onclick = timer;
@@ -46,4 +46,5 @@ clear.onclick = function () {
   seconds = 0;
   minutes = 0;
   hours = 0;
+  clearTimeout(t);
 };
