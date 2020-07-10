@@ -1,50 +1,75 @@
-var h1 = document.getElementsByTagName("h2")[0],
-  start = document.getElementById("start"),
-  stop = document.getElementById("stop"),
-  clear = document.getElementById("clear"),
-  seconds = 0,
-  minutes = 0,
-  hours = 0,
-  t;
+//Define vars to hold time values
+let seconds = 0;
+let minutes = 0;
+let hours = 0;
 
-function add() {
+//Define vars to hold "display" value
+let displaySeconds = 0;
+let displayMinutes = 0;
+let displayHours = 0;
+
+//Define var to hold setInterval() function
+let interval = null;
+
+//Define var to hold stopwatch status
+let status = "stopped";
+
+//Stopwatch function (logic to determine when to increment next value, etc.)
+function stopWatch() {
   seconds++;
-  if (seconds >= 60) {
+
+  //Logic to determine when to increment next value
+  if (seconds / 60 === 1) {
     seconds = 0;
     minutes++;
-    if (minutes >= 60) {
+
+    if (minutes / 60 === 1) {
       minutes = 0;
       hours++;
     }
   }
 
-  h1.textContent =
-    (hours ? (hours > 9 ? hours : "0" + hours) : "00") +
-    ":" +
-    (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") +
-    ":" +
-    (seconds > 9 ? seconds : "0" + seconds);
+  //If seconds/minutes/hours are only one digit, add a leading 0 to the value
+  if (seconds < 10) {
+    displaySeconds = "0" + seconds.toString();
+  } else {
+    displaySeconds = seconds;
+  }
 
-  timer();
+  if (minutes < 10) {
+    displayMinutes = "0" + minutes.toString();
+  } else {
+    displayMinutes = minutes;
+  }
+
+  if (hours < 10) {
+    displayHours = "0" + hours.toString();
+  } else {
+    displayHours = hours;
+  }
+
+  //Display updated time values to user
+  document.getElementById("display").innerHTML =
+    displayHours + ":" + displayMinutes + ":" + displaySeconds;
 }
-function timer() {
-  t = setTimeout(add, 1000);
+
+function startWatch(btn) {
+  if (status === "stopped" && btn === "start") {
+    //Start the stopwatch (by calling the setInterval() function)
+    interval = window.setInterval(stopWatch, 1000);
+    status = "started";
+  } else {
+    window.clearInterval(interval);
+    status = "stopped";
+  }
 }
-// timer();
 
-/* Start button */
-start.onclick = timer;
-
-/* Stop button */
-stop.onclick = function () {
-  clearTimeout(t);
-};
-
-/* Clear button */
-clear.onclick = function () {
-  h1.textContent = "00:00:00";
+//Function to reset the stopwatch
+function reset() {
+  window.clearInterval(interval);
   seconds = 0;
   minutes = 0;
   hours = 0;
-  clearTimeout(t);
-};
+  document.getElementById("display").innerHTML = "00:00:00";
+  //   document.getElementById("startStop").innerHTML = "Start";
+}

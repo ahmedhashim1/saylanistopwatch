@@ -12,10 +12,10 @@
     <br />
 
     <div class="container">
-      <h2 class="timer"><time>00:00:00</time></h2>
-      <button id="start">START</button>
-      <button id="stop">STOP</button>
-      <button id="clear">RESET</button>
+      <h2 class="timer" id="display">00:00:00</h2>
+      <button id="start" onclick="startWatch('start')">START</button>
+      <button id="stop" onclick="startWatch('stop')">STOP</button>
+      <button id="clear" onclick="reset()">RESET</button>
     </div>
 
     <script src="script.js"></script>
